@@ -1,0 +1,74 @@
+{% load static %}
+<!-- <aside class="main-sidebar sidebar-dark-primary elevation-1"> -->
+<aside class="main-sidebar sidebar-dark-primary elevation-2 " style="position: fixed;">
+    <a href="{% url 'home' %}" onclick="" class="brand-link bg-info">
+        <img src="{% static "dist/img/zaneco3x3.png" %}" alt="ZANECO Logo" class="brand-image-xl img-circle"
+            style="opacity: .8">
+        <span class="brand-text font-weight-heavy"><span style="font-size: 24px;">ZANECO</span> MeterLab</span>
+    </a>
+    <!-- <div class="sidebar-header">
+        <h1>Navigation</h1>
+    </div> -->
+    <div class="sidebar">
+        <nav class="mt-2">
+            <!-- <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-flat " data-widget="treeview" role="menu" data-accordion="false" data-api="treeview" > -->
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat " data-widget="treeview" role="menu" data-accordion="false"   >
+                <li class="nav-item has-treeview menu-open" id="sb_otherinfo">
+                    <!-- <a href="#" class="nav-link" id="sb_otherinfo_b">
+                        <i class="nav-icon fas fa-book-spells"></i>
+                        <p>Sources<i class="right fas fa-angle-left"></i></p>
+                    </a> -->
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link" id="sb_itemindex"><i class="nav-icon far fa-chart-network"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/meters" class="nav-link" id="sb_itemindex"><i class="nav-icon fal fa-tachometer-alt-slow"></i>
+                                <p>Meters</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/signatory" class="nav-link" id="sb_itemindex"><i class="nav-icon fal fa-signature"></i>
+                                <p>Signatory</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+
+                <!-- <li class="nav-item has-treeview menu-open" id="sb_materials">
+                    <a href="#" class="nav-link" id="sb_materials_b">
+                        <i class="nav-icon fas fa-tools"></i>
+                        <p>Materials<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" id="sb_issuance"><i class="nav-icon fal fa-hands-helping"></i>
+                                <p>
+                                    Reserved
+                                    <span class="right badge badge-warning"></span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li> -->
+
+            </ul>
+        </nav>
+    </div>
+</aside>
+
+
+<script>
+    // $(document).ready(function () {
+    //     $('#ulExpCol_1').collapse('toggle');
+    // });
+</script>

@@ -1,0 +1,10 @@
+1. git status
+2. git add -A
+3. git commit -m "Add all files"
+4. git log
+5. git config --global user.email "ronels_1122@yahoo.com"
+6. git config --global user.name "sample name"
+7. git add .
+8. git checkout -b new
+
+9. git push -u origin master

@@ -1,0 +1,22 @@
+git 1. git status
+2. git add -A
+3. git commit -m "Add all files"
+4. git log
+5. git config --global user.email "ronels_1122@yahoo.com"
+6. git config --global user.name "sample name"
+7. git add .
+8. git checkout -b new
+
+
+9. git remote add origin https://github.com/Donz1122/Accounting-System-C-.Net-MySql.git
+10. git push -u origin master
+11. git remote set-url origin https://github.com/Donz1122/Accounting-System-C-.Net-MySql.git
+git remote add origin https://github.com/Donz1122/Accounting-System.git
+
+
+git remote add origin url
+git remote -v
+git push origin master
+git pull --rebase origin master
+git rebase --continue
+https://github.com/Donz1122/Accounting-System.git
