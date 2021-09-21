@@ -1,0 +1,262 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block header %}
+{% include 'base/header.html' %}
+{% endblock header %}
+
+{% block content %}
+
+<style type="text/css">
+    label {
+        text-align: right;
+        color: darkslategray;
+        font-size-adjust: 0.45;
+    }
+    btn-txt-sm {
+        font-size-adjust: 0.45;
+        font-size: 12px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <input type="hidden" id="idmeters" value="{{ idmeters }}">
+            </div>
+        </div>
+        <section class="content">
+            <div class="col-12 row">
+                <div class="col-sm-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="col-12 row">
+                                <div class="col-sm-7">
+                                    <span>Meter List</span>
+                                </div>
+                                <div class=" ml-auto">
+                                    <button type="button" onclick="" class="btn btn-warning btn-xs"><span style="font-size: 12px;"> Return Selected</span></button>
+                                    <a href="" type="button" class="btn btn-info btn-xs"><span style="font-size: 12px;"><i class="fa fa-cog mr-1"></i>Calibrate</span></a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="serials_table" class="table table-nowrap table-striped dtr-inline">
+                                <thead>
+                                    <tr>
+                                        <th style="display: none;"></th>
+                                        <th data-sort-column="" class="leftmost"><input type="checkbox" id="select_all" onchange=""><label
+                                                for="select_all"><span></span></label></th>
+                                        <th style="width: 120px;"> Item Code</th>
+                                        <th style="width: fit-content;">Name</th>
+                                        <th>Description</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Sale Price</th>
+                                        <th></th>
+                                        <th style="display: none;"></th>
+                                        <th style="display: none;"></th>
+                                        <th style="display: none;"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-7">
+                    <div id="meter-history"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    var table, data, mselect, mselectstr;
+
+    window.onload = function () {
+
+            function Load_serials_table() {
+
+            table = $('#serials_table').DataTable({
+                "scrollX": true,
+                "searching": true,
+                "info": false,
+                "lengthChange": true,
+                "responsive": false,
+                "columnDefs": [
+                    {
+                        "targets": [0, 7, 8, 9],
+                        "visible": false,
+                    }, {
+                        "targets": [1],
+                        "orderable": false,
+                        "className": "select-checkbox icheck-primary",
+                    }
+                ],
+                "keys": true,
+                "keys": { "blurable": false },
+                // "select": true,
+                "select": {
+                    "style": "os",
+                    // "selector": 'td:first-child',
+                },
+                "processing": true,
+                "serverSide": true,
+                "ajax": function (data, callback, settings) {
+                    var sort_column_name = data.columns[data.order[0].column].data.replace(/\./g, "__");
+                    var direction = "";
+                    if (data.order[0].dir == "desc") { direction = "-" };
+                    $.get("", {
+                        limit: data.length,
+                        start: data.start,
+                        filter: data.search.value,
+                        order_by: direction + sort_column_name
+                    }, function (res) {
+                        callback({
+                            recordsTotal: res.length,
+                            recordsFiltered: res.length,
+                            data: res.objects
+                        });
+                    });
+                },
+                columns: [
+                    { "data": "id" },
+                    {
+                        "data": "serialno", "render": function (data, type, row) {
+                            return ''
+                        }
+                    },
+                    {
+                        "data": "serialno", "render": function (data, type, row) {
+                            return '<td style="width: fit-content;"> <a href="#" data-toggle="tooltip" title data-original-title="Edit">' + data + '</a></td>'
+                        }
+                    },
+                    { "data": "idmeters__brand" },
+                    {
+                        "data": "accuracy", "render": function (data, type, row) {
+                            if (data == "None") {
+                            } else {
+                                return data
+                            }
+                        }
+                    },
+                    {
+                        "data": "status", "render": function (data, type, row) {
+                            if (data == 1) {
+                                return '<span style="color: rgb(79, 139, 18);"> Passed</span>'
+                            } else if (data == 2) {
+                                return '<span style="color: rgb(255, 0, 0);">Failed</span>'
+                            } else {
+                                return '<span>Pending</span>'
+                            }
+                        }
+                    },
+                    {
+                        "data": "wms_status", "render": function (data, type, row) {
+                            if (data == 2) {
+                                return '<span style="font-size: 12px;" title="Returned to warehouse"> Returned</span></a>'
+                            } else {
+                                if (row["status"] >= 1) {
+                                    return '<a href="" class="btn btn-default btn-xs text-xs" title="Calibrated"> <span style = "font-size: 12px;"> Calibrated</span ></a>'
+                                } else {
+                                    return '<a href="calibrate_meter/' + row["id"] + '" class="btn btn-success btn-xs text-xs" title="Calibrate"> <span style = "font-size: 12px;"> Calibrate</span ></a>'
+                                }
+                            }
+                        }
+                    },
+                    { "data": "idmeters" },
+                    { "data": "serialno" },
+                    { "data": "status" },
+                ],
+                "fnInitComplete": function (oSettings, json) {
+                    $('#serials_table tbody tr:eq(0)').click();
+                }
+            });
+        }
+        Load_serials_table();
+
+/*
+        $('#serials_table tbody').on('click', 'tr', function (e, datatable, cell) {
+            var data = table.rows(this).data();
+
+            var id = data[0]['id'];
+            var idmeters = data[0]['idmeters'];
+            var serials = data[0]['serialno'];
+            change_table3_data(id, serials, idmeters);
+        });
+
+        function change_table3_data(id = 0, serials = 0, idmeters = 0) {
+            $.ajax({
+                url: "{% url 'selected_serial' %}",
+                method: 'GET',
+                type: 'GET',
+                data: {
+                    id: id,
+                    serials: serials,
+                    idmeters: idmeters
+                },
+                success: function (data) {
+                    $("#meter-history").html(data);
+                    $('#id_serial').html(serials);
+                    $('#idmeterserials').val(id);
+                },
+                error: function (e) {
+                    alert('err: meter_list.html-202');
+                }
+            });
+        } change_table3_data(id, 0);*/
+
+    }
+/*
+    function select_all() {
+        var isChecked = $('#select_all').is(':checked') ? 1 : 0;
+        if (isChecked == 1)
+            table.rows().select();
+        else
+            table.rows().deselect();
+    }
+
+    function return_selectedTable() {
+        var itemcode, qty;
+        var count = table.rows('.selected').count();
+        if (count <= 0) return;
+        var ok = confirm('Are you sure to return selected row(s) to warehouse?');
+        if (ok == true) {
+            data = table.rows('.selected').data();
+            data.each(function (value, index) {
+                if (value['status'] == "None" || value['status'] == null ) {
+                    alert('Meter ' + value['serialno'] + " is not yet calibrated!")
+                } else {
+                    save_return_selectedTable(value['id'], value['serialno']);
+                }
+            });
+        }
+    }
+
+    function save_return_selectedTable(id=0, serialno='') {
+        $.ajax({
+            url: "{% url 'save_selectedTable' %}",
+            method: 'GET',
+            type: 'GET',
+            data: { id: id, },
+            success: function (data) {
+                 $.ajax({
+                    success: function (data) {
+                        table.ajax.reload(null, false);
+                        msgalert("Returned", "Meter ["+ serialno +"] successfully returned to warehouse", 1);
+                    },
+                    error: function () {
+                        alert('Err: save_return_selectedTable');
+                    }
+                });
+            },
+        });
+    }*/
+
+</script>
+
+{% endblock content %}

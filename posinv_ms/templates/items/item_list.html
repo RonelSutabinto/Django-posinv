@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+
+{% block header %}
+{% include 'base/header.html' %}
+{% endblock header %}
+
+{% block content %}
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 row center">
+          <div class="col-sm-1.5 mr-2">
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <section class="content">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <table id="table_item" class="table table-nowrap table-striped">
+                <thead>
+                  <tr>
+                    <th style="display: none;"></th>
+                    <th data-sort-column="" class="leftmost"><input type="checkbox" id="select_all" onchange=""><label
+                            for="select_all"><span></span></label></th>
+                    <th style="width: 120px;">Item Code</th>
+                    <th style="width: fit-content;">Name</th>
+                    <th>Description</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Sale Price</th>
+                    <th></th>
+                    <th style="display: none;"></th>
+                    <th style="display: none;"></th>
+                    <th style="display: none;"></th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+  function delete_meters(id) {
+
+    var ok = confirm('Are you sure to delete this entry?');
+    if (ok == true) {
+      $.ajax({
+        url: "{% url 'delete_items' 0 %}".replace('0', id),
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        contentType: false,
+        data: { id: id, },
+        success: function (data) {
+          if (data == 'deleted') {
+            $('table_item').datatable().ajax.reload(null, false);
+            // window.location.cd ();
+          }
+        },
+        error: function (e) {
+          alert('err: item list 217');
+        }
+      });
+    }
+  }
+
+</script>
+{% endblock content %}

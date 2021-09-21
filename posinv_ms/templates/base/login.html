@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>POSaxel | Log in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static "dist/img/axel.png" %}">
+    <link rel="stylesheet" href="{% static "plugins/fontawesome-pro-5.13.0-web/css/all.min.css" %}">
+    <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+</head>
+<!-- 
+<style type="text/css">
+  .bg {
+        /*background-image: url("1558707646027.jpg");*/
+        background: url("{% static "dist/img/photo4.jpg" %}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>-->
+
+<body class="hold-transition login-page bg">
+    <div class="login-box">
+        <div class="login-logo">
+            <div class="text-center">
+                <img class="profile-user-img img-fluid img-circle" src="{% static "dist/img/axel.png" %}"
+                    alt="User profile picture">
+            </div>
+            <a href="#" style="color: rgb(6, 36, 102);">POS<b>axel</b></a>
+        </div>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">Sign in to start your session</h5>
+                </div>
+                <div class="card-body login-card-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-sm inputs" style="text-align: center;"
+                            id="id_username" name="username" placeholder="Username">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control form-control-sm inputs" style="text-align: center;"
+                            id="id_password" name="password" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <center><label class="text-danger">{{ msg }}</label></center>
+                    <center>
+                        <div class="col-12 col-md-6">
+                            <!-- <button type="button" name="login" onclick="search_user()"
+                            class="btn btn-primary btn-block btn-sm inputs">Sign In</button> -->
+                            <button type="submit" name="login" class="btn btn-primary btn-block btn-sm inputs">Sign
+                                In</button>
+                        </div>
+                    </center>
+                </div>
+                <div class="card-footer">
+                    <center>
+                        <p class="mb-0">
+                            <a href="#" class="text-center" style="font-size: 14px;">Register as new user</a>
+                        </p>
+                    </center>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+    <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+    <!-- <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <script src="{% static "dist/js/pages/dashboard.js" %}"></script>
+    <!-- <script src="../plugins/sweetalert2/sweetalert2.min.js"></script> -->
+    <!-- <script src="../plugins/toastr/toastr.min.js"></script> -->
+
+    <script type="text/javascript">
+
+        $('.inputs').keydown(function (e) {
+            if (e.which === 13) {
+                var index = $('.inputs').index(this) + 1;
+                $('.inputs').eq(index).focus();
+            }
+        });
+
+        function search_user() {
+            var un = $('#id_username').val();
+            var up = $('#id_password').val();
+            alert(un +' - '+ up);
+        }
+        // function search_user() {
+        //     var un = $('#username').val();
+        //     var up = $('#password').val();
+        //     $.ajax({
+        //         url: 'datahelpers/login_helper.php',
+        //         type: 'post',
+        //         dataType: 'json',
+        //         data: { un: un, up: up },
+        //         success: function (data) {
+        //             if (data.logs == "success") {
+        //                 if (data.user == "super") {
+        //                     window.location = "index.php";
+        //                 } else {
+        //                     if (data.active == 1) {
+        //                         if (data.area != "DMO") {
+        //                             if (Number(data.restriction) <= 1) window.location = "user_switch.php"; else window.location = "index.php";
+        //                         } else {
+        //                             if (Number(data.restriction) == 2) {
+        //                                 window.location = "issuance.php";
+        //                             } else {
+        //                                 window.location = "index.php";
+        //                             }
+        //                         }
+        //                     } else {
+        //                         alert("User account is not activated!");
+        //                     }
+        //                 }
+        //             } else {
+        //                 alert(data.logs);
+        //             }
+        //         },
+        //         error: function () {
+        //             alert('err');
+        //         },
+        //     });
+        // };
+
+    </script>
+
+</html>

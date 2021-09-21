@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ZANECO MeterLab | Log in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static "dist/img/zaneco1x1.png" %}">
+    <link rel="stylesheet" href="{% static "plugins/fontawesome-pro-5.13.0-web/css/all.min.css" %}">
+    <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+</head>
+
+<style type="text/css">
+    .bg {
+        /*background-image: url("1558707646027.jpg");*/
+        background: url("{% static "dist/img/avatar2.jpg" %}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
+
+<body class="hold-transition register-page bg">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="#" style="color: white;"><b>zaneco</b>MeterLab</a>
+        </div>
+
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register a new user</p>
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                <div class="input-group input-group-sm mb-3">
+                    <input type="username" class="form-control" placeholder="Username" id="id_username" name="username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <input type="password" class="form-control" placeholder="Password" id="id_password1" name="password1">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                    <!-- <span class="input-group-append">
+                        <button type="button" class="btn btn-info btn-flat" onclick="view_pass()"><i
+                                class="fal fa-lock"></i></button>
+                    </span> -->
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <input type="password" class="form-control" placeholder="Retype password" id="id_password2"
+                        name="password2">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control" placeholder="First Name" id="id_first_name" name="first_name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control" placeholder="Last Name" id="id_last_name" name="last_name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control" placeholder="Position" id="id_position" name="position">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-map-marker-alt"></span>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="input-group input-group-sm mb-3">
+
+                    <select class="form-control form-control-sm select2" id="id_area" name="area">
+                        <option value="0" selected>Dipolog Main Office</option>
+                        <option value="1"> Piñan Area Services</option>
+                        <option value="2">Sindangan Area Services</option>
+                        <option value="3">Liloy Area Services</option>
+                    </select>
+
+                </div> -->
+
+                <div class="row">
+                    <div class="col">
+                        <center><label class="text-danger">{{ msg }}</label></center>
+                        <center>
+                            <button type="submit" class="btn btn-primary btn-block btn-sm mb-3">Register</button>
+                        </center>
+                    </div>
+                </div>
+
+                </form>
+                <center>
+                    <a href="{% url 'home' %}" class="text-center" style="font-size: 14px;">I already have a
+                        membership</a>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "dist/js/pages/dashboard.js" %}"></script>
+
+
+    <script type="text/javascript">
+
+        // $('#fullname option, #area option').addClass('font-size-small');
+        // $('.select2').select2({
+        //   theme: "classic"
+        // });
+
+        function select_employee() {
+            var empno = $('#fullname').val();
+            $('#empno').val(empno);
+            selected_employee(empno);
+        }
+
+        function selected_employee(empno) {
+            $.ajax({
+                url: 'datahelpers/record_finder_helper.php',
+                type: 'post',
+                dataType: 'json',
+                data: { empno: empno },
+                success: function (data) {
+                    $('#position').val(data.title);
+                }
+            });
+        }
+
+        function save_user() {
+            var add = "save";
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var password2 = $('#password2').val();
+            var fullname = $('#fullname option:selected').html();
+            var position = $('#position').val();
+
+            var area = $('#area').val();
+            var empno = $('#empno').val();
+
+
+            if (password === password2) {
+                $.ajax({
+                    url: 'datahelpers/regs_helper.php',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        add: 'register',
+                        username: username,
+                        password: password,
+                        fullname: fullname,
+                        position: position,
+                        area: area,
+                        empno: empno,
+                    },
+                    success: function (data) {
+                        if (Number(data.found) == 1) {
+                            alert(data.stats);
+                        } else {
+                            window.location = "login.php";
+                        }
+                    },
+                    error: function () {
+                        alert('err');
+                    }
+                });
+            } else {
+                alert('Password mismatch...');
+            }
+        };
+
+
+        function view_pass() {
+            var x = document.getElementById("password");
+            var y = document.getElementById("password2");
+            if (x.type === "password") {
+                x.type = "text";
+                y.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
