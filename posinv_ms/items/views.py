@@ -52,3 +52,36 @@ def delete_items(request, id):
         iteminfo.delete()
         json_response = {json.dumps('deleted')}
     return HttpResponse(json_response, content_type='application/json')
+
+
+# class MeterList(CreateView):
+def seriallist(request, id):
+    return render(request, 'meters/list_serials.html', {'idmeters': id, 'header':'List of Meter Serial'})
+
+def seriallist_data(request, id):
+    if request.is_ajax():
+        start = int(request.GET.get('start'))
+        limit = int(request.GET.get('limit'))
+        filter = request.GET.get('filter')
+        order_by = request.GET.get('order_by')
+        query = itemserials.objects.select_related('items').filter(idmeters=id,
+            serialno__icontains=filter,).values('iditems', 'itemcode', 'serialno', 'ampheres',
+                                            'accuracy', 'wms_status', 'status', 'active', 'userid').order_by(order_by)
+        list_data = []
+        for index, item in enumerate(query[start:start+limit], start):
+            list_data.append(item)
+        data = {
+            'length': query.count(),
+            'objects': list_data,
+        }
+        return HttpResponse(json.dumps(data, default=default), 'application/json')
+
+
+def selected_serial(request):
+    if request.is_ajax():
+        id = request.GET.get('iditems')
+        idmeters = request.GET.get('itemcode')
+        queryset = itemserials_details.objects.filter(idmeterserials=id).order_by('iditemsserials')
+        html = 'items/list_serials_ext.html'
+        context = {'trans': queryset, 'iditems': id, 'itemcode': idmeters}
+        return render(request, html, context)
