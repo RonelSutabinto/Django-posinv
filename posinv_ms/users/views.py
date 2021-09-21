@@ -52,4 +52,4 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
-    #return render(request, 'base/login.html')
+   
