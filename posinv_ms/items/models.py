@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class items(models.Model):
-    iditems = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     itemcode = models.CharField(max_length=45)
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=85)
@@ -23,7 +23,7 @@ class items(models.Model):
 
 
 class itemserials(models.Model):
-    iditems = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     itemcode = models.CharField(max_length=45)
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=85)
@@ -41,7 +41,7 @@ class itemserials(models.Model):
 
 
 class itemserials_details(models.Model):
-    iditems = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     itemcode = models.CharField(max_length=45)
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=85)

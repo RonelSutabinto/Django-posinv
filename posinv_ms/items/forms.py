@@ -5,7 +5,7 @@ from .models import items, itemserials, itemserials_details
 class itemForm(forms.ModelForm):
     class Meta:
         model = items
-        fields = ['iditems','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingbyID','pricingdate']
+        fields = ['id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingbyID','pricingdate']
         labels = {
             'itemcode': 'Item Code', 'description': 'Description', 'saleprice': 'Sale Price', 'metertype': 'Meter Type', 'units': 'Unit'
         }

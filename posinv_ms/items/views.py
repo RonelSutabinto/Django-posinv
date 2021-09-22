@@ -25,7 +25,7 @@ class iViews(ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             serialnos__icontains=self.request.GET.get('filter'),
-            rrnumber__icontains=self.request.GET.get('filter'),).values('iditems','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingbyID','pricingdate').order_by( self.request.GET.get('order_by') )
+            ivnumber__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -47,7 +47,7 @@ class iViews(ListView):
 
 def delete_items(request, id):
     if request.is_ajax():
-        id = request.GET.get('iditem')
+        id = request.GET.get('id')
         iteminfo = items.objects.get(pk=id)
         iteminfo.delete()
         json_response = {json.dumps('deleted')}
@@ -56,7 +56,7 @@ def delete_items(request, id):
 
 # class MeterList(CreateView):
 def seriallist(request, id):
-    return render(request, 'meters/list_serials.html', {'iditems': id, 'header':'List of Item Serial'})
+    return render(request, 'meters/list_serials.html', {'id': id, 'header':'List of Item Serial'})
 
 def seriallist_data(request, id):
     if request.is_ajax():
@@ -64,8 +64,8 @@ def seriallist_data(request, id):
         limit = int(request.GET.get('limit'))
         filter = request.GET.get('filter')
         order_by = request.GET.get('order_by')
-        query = itemserials.objects.select_related('items').filter(iditems=id,
-            serialno__icontains=filter,).values('iditems', 'itemcode', 'name', 'description',
+        query = itemserials.objects.select_related('items').filter(id=id,
+            serialno__icontains=filter,).values('id', 'itemcode', 'name', 'description',
                                             'brand', 'category', 'unit', 'qty', 'price','saleprice').order_by(order_by)
         
         list_data = []
@@ -77,7 +77,7 @@ def seriallist_data(request, id):
         }
         return HttpResponse(json.dumps(data, default=default), 'application/json')
 
-
+'''
 def selected_serial(request):
     if request.is_ajax():
         id = request.GET.get('iditems')
@@ -87,7 +87,7 @@ def selected_serial(request):
         context = {'trans': queryset, 'iditems': id, 'itemcode': idmeters}
         return render(request, html, context)
 
-'''
+
 def edit_items(request, id, idmeters):
     if request.method == "POST":
         queryset = meterserials_details(pk=id)
