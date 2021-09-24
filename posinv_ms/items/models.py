@@ -7,13 +7,14 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class items(models.Model):
     id = models.AutoField(primary_key=True)
-    itemcode = models.CharField(max_length=45)
+    itemcode = models.CharField(max_length=45, unique=True)
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=85)
     brand = models.CharField(max_length=45)
     category = models.CharField(max_length=45)
     unit = models.CharField(max_length=45)          
-    qty = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])             
+    #qty = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])     
+    qty = models.CharField(max_length=45)         
     price = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     saleprice = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     pricingbyID = models.CharField(max_length=45)       

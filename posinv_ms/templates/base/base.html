@@ -8,7 +8,7 @@
     <title>POSaxel</title>
     <link rel="icon" href="{% static "dist/img/axel.png" %}">
 
-    <!-- Google Font: Source Sans Pro -->
+ <!-- Google Font: Source Sans Pro -->
     <!-- Ionicons -->
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %}">
@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="{% static "plugins/toastr/toastr.min.css" %}">
     <link rel="stylesheet" href="{% static "plugins/toast/toast.min.css" %}">
 
+
 </head>
 
 {% if request.user.is_authenticated %}
@@ -64,9 +65,6 @@
 {% else %}
     {% include 'base/login.html' %}
 {% endif %}
-
-
-
 
 <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
 <script src="{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
@@ -113,74 +111,94 @@
 <script src="{% static "dist/js/demo.js" %}"></script>
 <script src="{% static "dist/js/pages/dashboard.js" %}"></script>
 
-<!-- <script type="text/javascript" src="{% static "dist/css/selectdatatables/jquery.dataTables.min.js" %}"></script> -->
-<!-- <script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.select.min.js" %}"></script> -->
-<!-- <script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.buttons.min.js" %}"></script> -->
-<!-- <script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.editor.min.js" %}"></script>
-<script type="text/javascript" src="{% static "dist/css/selectdatatables/tabledit.min.js" %}"></script>
-<script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.keyTable.min.js" %}"></script> -->
-meter-history
 </html>
 
 
 <script>
 
-    $('.select2').select2();
-    var rrnumber = '';
+    $('.select2').select2();    
+    var itemcode = '';
+    var name = '';
 
     $(document).ready(function () {
 
-        let table_rr = $('#table_item').DataTable({
-        "searching": true,
-        "processing": true,
-        "stateSave": true,
-        "info": true,
-        "paging": true,
-        "lengthChange": true,
-        "autoWidth": false,
-        "responsive": true,
-        "columnDefs": [{
-            "targets": [ 6 ],
-            "className": "text-right",
-        }],
-        "keys": true,
-        "keys": { "blurable": false },
-        "select": true,
-        "select": {
-            "style": "os",
-        },
-        "serverSide": true,
-        "processing": true,
-        "ajax": function (data, callback, settings) {
-            var sort_column_name = data.columns[data.order[0].column].data.replace(/\./g, "__");
-            var direction = "";
-            if (data.order[0].dir == "desc") { direction = "-" };
-            $.get("{% url 'iiiviews' %}", {
-                limit: data.length,
-                start: data.start,
-                filter: data.search.value,
-                order_by: direction + sort_column_name
-            }, function (res) {
-                callback({
-                    recordsTotal: res.length,
-                    recordsFiltered: res.length,
-                    data: res.objects
+        let table_item = $('#table_item').DataTable({
+            "searching": true,
+            "processing": true,
+            "stateSave": true,
+            "info": true,
+            "paging": true,            
+            "lengthChange": true,
+            "autoWidth": false,
+            "responsive": true,
+            "columnDefs": [{
+                "targets": [9],
+                "className": "text-right",
+            }],
+            "keys": true,
+            "keys": { "blurable": false },
+            "select": true,
+            "select": {
+                "style": "os",
+            },
+            "serverSide": true,
+            "processing": true,
+            "ajax": function (data, callback, settings) {
+                var sort_column_name = data.columns[data.order[0].column].data.replace(/\./g, "__");
+                var direction = "";
+                if (data.order[0].dir == "desc") { direction = "-" };
+                $.get("{% url 'iiiviews' %}", {
+                    limit: data.length,
+                    start: data.start,
+                    filter: data.search.value,
+                    order_by: direction + sort_column_name
+                }, function (res) {
+                    callback({
+                        recordsTotal: res.length,
+                        recordsFiltered: res.length,
+                        data: res.objects
+                    });
                 });
-            });
-        },
-        columns: [
-            { "data": "id" },                
-            { "data": "itemcode" },
-            { "data": "name" },
-            { "data": "description" },
-            { "data": "brand" },
-            { "data": "category" },
-            { "data": "unit" },
-            { "data": "qty" },
-            { "data": "price" },
-            { "data": "saleprice" },
-            { "data": "id" },
-    ]
+            },
+            columns: [
+                { "data": "id" }, 
+                { "data": "name" },                  
+                { "data": "itemcode", "render": function (data, type, row) {
+                        return '<td style="width: fit-content;"> <a href="seriallist/'+ row["id"] +'">' + data + '</a></td>'
+                    }
+                },                            
+                { "data": "brand" },
+                { "data": "category" },
+                { "data": "unit" },
+                {
+                    "data": "qty", "render": function (data, type, row) {
+                        if (data == "None") {
+                        } else {
+                            return data
+                        }
+                    }
+                },
+                {
+                    "data": "price", "render": function (data, type, row) {
+                        if (data == "None") {
+                        } else {
+                            return data
+                        }
+                    }
+                },
+                
+                { "data": "saleprice" },
+                { "data": "id", "render": function (data, type, row) {
+                        if ('{{ request.user.is_superuser }}' == 'True') {
+                                return '<center><a href="#" class="btn btn-danger btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
+                            } else {
+                                return '<center><a href="#" class="btn btn-default btn-xs text-sm" title="Delete"><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
+                            }
+                        }
+                },
+            
+            ]
+
         });
         table_item.column(0).visible(false);
     });

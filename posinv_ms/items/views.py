@@ -22,11 +22,17 @@ class IIIViews(ListView):
     html = 'items/item_list.html'
     success_url = '/'
 
-    def get_queryset(self):
+    def get_queryset(self):        
         return self.model.objects.filter(
-            serialnos__icontains=self.request.GET.get('filter'),
-            icode__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
-
+            itemcode__icontains=self.request.GET.get('filter') ,              
+            name__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
+            
+    #def get_queryset(self):
+    #    cursor = connection.cursor()
+    #    cursor.execute("Select * from items where name like '%'")
+    #    row = cursor.fetchone()
+    #    return row
+    
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             start = int(request.GET.get('start'))
@@ -36,11 +42,11 @@ class IIIViews(ListView):
             list_data = []
             for index, _item in enumerate(self.get_queryset()[start:start+limit], start):
                 list_data.append(_item)
-            
-            #[{'id' : '1', 'dateforwarded' : '2021-10-21', 'rrnumber' : '1001','brand' : 'brand'}],
+                                    
+           
             data = {
-                'length': 2, #self.get_queryset().count(),
-                'objects': [{'id' : '1', 'itemcode' : '10001', 'name' : 'Ronel','description' : 'Ronel Sutabinto'}],
+                'length': self.get_queryset().count(),
+                'objects': list_data,
             }
             return HttpResponse(json.dumps(data, default=default), 'application/json')
         else:
@@ -62,7 +68,7 @@ def seriallist(request, id):
 
 def seriallist_data(request, id):
     if request.is_ajax():
-        start = int(request.GET.get('start'))
+        '''start = int(request.GET.get('start'))
         limit = int(request.GET.get('limit'))
         filter = request.GET.get('filter')
         order_by = request.GET.get('order_by')
@@ -72,10 +78,10 @@ def seriallist_data(request, id):
         
         list_data = []
         for index, item in enumerate(query[start:start+limit], start):
-            list_data.append(item)
+            list_data.append(item)'''
         data = {
-            'length': query.count(),
-            'objects': list_data,
+            'length': 2,#query.count(),
+            'objects': [{'id' : '1', 'dateforwarded' : '2021-10-21', 'rrnumber' : '1001','brand' : 'brand'}],#list_data,
         }
         return HttpResponse(json.dumps(data, default=default), 'application/json')
 
