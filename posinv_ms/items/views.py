@@ -17,7 +17,7 @@ datetoday = datetime.date.today()
 header = 'Dashboard'
 
 # Create your views here.
-class iViews(ListView):
+class IIIViews(ListView):
     model = items
     html = 'items/item_list.html'
     success_url = '/'
@@ -25,24 +25,26 @@ class iViews(ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             serialnos__icontains=self.request.GET.get('filter'),
-            ivnumber__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
+            icode__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             start = int(request.GET.get('start'))
             limit = int(request.GET.get('limit'))
             filter = request.GET.get('filter')
-            # order_by = request.GET.get('order_by')
+            
             list_data = []
-            for index, item in enumerate(self.get_queryset()[start:start+limit], start):
-                list_data.append(item)
+            for index, _item in enumerate(self.get_queryset()[start:start+limit], start):
+                list_data.append(_item)
+            
+            #[{'id' : '1', 'dateforwarded' : '2021-10-21', 'rrnumber' : '1001','brand' : 'brand'}],
             data = {
-                'length': self.get_queryset().count(),
-                'objects': list_data,
+                'length': 2, #self.get_queryset().count(),
+                'objects': [{'id' : '1', 'itemcode' : '10001', 'name' : 'Ronel','description' : 'Ronel Sutabinto'}],
             }
             return HttpResponse(json.dumps(data, default=default), 'application/json')
         else:
-            return render(request, self.html, {'header': 'items'})
+            return render(request, self.html, {'header': 'Stock List'})
 
 
 def delete_items(request, id):
@@ -76,6 +78,17 @@ def seriallist_data(request, id):
             'objects': list_data,
         }
         return HttpResponse(json.dumps(data, default=default), 'application/json')
+
+
+def datetime_handler(x):
+    if isinstance(x, datetime.datetime):
+        return x.isoformat()
+    raise TypeError("Unknown type")
+
+
+def default(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
 
 '''
 def selected_serial(request):

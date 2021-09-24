@@ -24,9 +24,7 @@
               <table id="table_item" class="table table-nowrap table-striped">
                 <thead>
                   <tr>
-                    <th style="display: none;"></th>
-                    <th data-sort-column="" class="leftmost"><input type="checkbox" id="select_all" onchange=""><label
-                            for="select_all"><span></span></label></th>
+                    <th style="display: none;"></th>                   
                     <th style="width: 120px;">Item Code</th>
                     <th style="width: fit-content;">Name</th>
                     <th>Description</th>
@@ -36,10 +34,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Sale Price</th>
-                    <th></th>
-                    <th style="display: none;"></th>
-                    <th style="display: none;"></th>
-                    <th style="display: none;"></th>
+                    <th></th>                    
                   </tr>
                 </thead>
               </table>
@@ -53,7 +48,7 @@
 
 <script type="text/javascript">
 
-  function delete_meters(id) {
+  function delete_items(id) {
 
     var ok = confirm('Are you sure to delete this entry?');
     if (ok == true) {

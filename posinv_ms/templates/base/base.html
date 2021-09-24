@@ -119,7 +119,7 @@
 <!-- <script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.editor.min.js" %}"></script>
 <script type="text/javascript" src="{% static "dist/css/selectdatatables/tabledit.min.js" %}"></script>
 <script type="text/javascript" src="{% static "dist/css/selectdatatables/dataTables.keyTable.min.js" %}"></script> -->
-
+meter-history
 </html>
 
 
@@ -130,68 +130,63 @@
 
     $(document).ready(function () {
 
-        let table_rr = $('#table_rr').DataTable({
-            "searching": true,
-            "processing": true,
-            "stateSave": true,
-            "info": true,
-            "paging": true,
-            "lengthChange": true,
-            "autoWidth": false,
-            "responsive": true,
-            "columnDefs": [{
-                "targets": [ 6 ],
-                "className": "text-right",
-            }],
-            "keys": true,
-            "keys": { "blurable": false },
-            "select": true,
-            "select": {
-                "style": "os",
-            },
-            "serverSide": true,
-            "processing": true,
-            "ajax": function (data, callback, settings) {
-                var sort_column_name = data.columns[data.order[0].column].data.replace(/\./g, "__");
-                var direction = "";
-                if (data.order[0].dir == "desc") { direction = "-" };
-                $.get("", { 
-                    limit: data.length,
-                    start: data.start,
-                    filter: data.search.value,
-                    order_by: direction + sort_column_name
-                }, function (res) {
-                    callback({
-                        recordsTotal: res.length,
-                        recordsFiltered: res.length,
-                        data: res.objects
-                    });
+        let table_rr = $('#table_item').DataTable({
+        "searching": true,
+        "processing": true,
+        "stateSave": true,
+        "info": true,
+        "paging": true,
+        "lengthChange": true,
+        "autoWidth": false,
+        "responsive": true,
+        "columnDefs": [{
+            "targets": [ 6 ],
+            "className": "text-right",
+        }],
+        "keys": true,
+        "keys": { "blurable": false },
+        "select": true,
+        "select": {
+            "style": "os",
+        },
+        "serverSide": true,
+        "processing": true,
+        "ajax": function (data, callback, settings) {
+            var sort_column_name = data.columns[data.order[0].column].data.replace(/\./g, "__");
+            var direction = "";
+            if (data.order[0].dir == "desc") { direction = "-" };
+            $.get("{% url 'iiiviews' %}", {
+                limit: data.length,
+                start: data.start,
+                filter: data.search.value,
+                order_by: direction + sort_column_name
+            }, function (res) {
+                callback({
+                    recordsTotal: res.length,
+                    recordsFiltered: res.length,
+                    data: res.objects
                 });
-            },
-            columns: [
-                { "data": "id" },
-                { "data": "dateforwarded" },
-                { "data": "rrnumber", "render": function (data, type, row) {
-                        return '<td style="width: fit-content;"> <a href="seriallist/'+ row["id"] +'">' + data + '</a></td>'
-                    }
-                },
-                { "data": "brand" },
-                { "data": "serialnos" },
-                { "data": "metertype" },
-                { "data": "units" },
-                { "data": "id", "render": function (data, type, row) {
-                    if ('{{ request.user.is_superuser }}' == 'True') {
-                    return '<center><a href="#" class="btn btn-danger btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fal fa-trash-alt"></i><span style="font-size: 12px;"> Delete</span></a></center>'
-                    } else {
-                    return '<center><a href="#" class="btn btn-default btn-xs text-sm" title="Delete"><i class="fal fa-trash-alt"></i><span style="font-size: 12px;"> Delete</span></a></center>'
-                    }
-                    }
-                },
-            ]
+            });
+        },
+        columns: [
+            { "data": "id" },                
+            { "data": "itemcode" },
+            { "data": "name" },
+            { "data": "description" },
+            { "data": "brand" },
+            { "data": "category" },
+            { "data": "unit" },
+            { "data": "qty" },
+            { "data": "price" },
+            { "data": "saleprice" },
+            { "data": "id" },
+    ]
         });
-        table_rr.column(0).visible(false);
+        table_item.column(0).visible(false);
     });
-
+                    
+     
+    /*
     let opt_supplier = '{{ opt_supplier }}';
     let opt_rr = '{{ opt_rr }}';
     if (opt_supplier != '') $("#id_supplier").select2().val(opt_supplier).trigger('change.select2');
@@ -200,7 +195,7 @@
     function meter_serial(params) {
         $('#add-serials').modal('show').draggable({ handle: ".modal-header" });
     }
-
+    */ 
     function msgalert(header, remarks, ico) {
         if (ico == 1) icon = 'fal fa-save fa-lg';
         if (ico == 2) icon = 'fas fa-pencil-alt fa-lg';
@@ -215,5 +210,5 @@
             autohide: true,
             delay: 10000,
         });
-};
+    };
 </script>
