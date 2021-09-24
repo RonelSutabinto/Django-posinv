@@ -22,19 +22,32 @@ class IIIViews(ListView):
     model = items
     html = 'items/item_list.html'
     success_url = '/'
+        
+    #def get_queryset(self):        
+    #    return self.model.objects.filter(
+           # itemcode__icontains=self.request.GET.get('filter') ,              
+    #        name__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
 
     
     def get_queryset(self):        
-        return self.model.objects.filter(
-           # itemcode__icontains=self.request.GET.get('filter') ,              
-            name__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
-                    
-    #def get_queryset(self):
-    #    cursor = connection.cursor()
-    #    cursor.execute("Select * from items where name like '%'")
-    #    row = cursor.fetchone()
-    #    return row
+        query = self.request.GET.get('filter')
+        return self.model.objects.filter(Q(name__icontains=query) | Q(itemcode__icontains=query) | Q(category__icontains=query)).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
+            
+         
+    ''' source of class statement==============
+    class SearchedPostListView(ListView):
+        model = Post
+        template_name = 'blog/search.html'  # /_.html
+        paginate_by = 2
+        context_object_name = 'posts'   
     
+        def get_context_data(self, *args, **kwargs):
+            context = super(SearchedPostListView, self).get_context_data(*args, **kwargs)
+            query = self.request.GET.get('q')
+            context['posts'] = Post.objects.filter(Q(title__icontains=query) | Q(author__username__icontains=query) | Q(content__icontains=query))
+            context['categories'] = Categories.objects.all
+            return context'''
+
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             start = int(request.GET.get('start'))
