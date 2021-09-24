@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from .models import items, itemserials, itemserials_details
+from django.db.models.query_utils import Q
 from .forms import itemForm #, itemserialsForm, serialsdetailsForm
 
 from django.views.generic import CreateView, FormView, RedirectView, ListView
@@ -22,11 +23,12 @@ class IIIViews(ListView):
     html = 'items/item_list.html'
     success_url = '/'
 
+    
     def get_queryset(self):        
         return self.model.objects.filter(
-            itemcode__icontains=self.request.GET.get('filter') ,              
-            name__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice').order_by( self.request.GET.get('order_by') )
-            
+           # itemcode__icontains=self.request.GET.get('filter') ,              
+            name__icontains=self.request.GET.get('filter'),).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
+                    
     #def get_queryset(self):
     #    cursor = connection.cursor()
     #    cursor.execute("Select * from items where name like '%'")
@@ -40,7 +42,7 @@ class IIIViews(ListView):
             filter = request.GET.get('filter')
             
             list_data = []
-            for index, _item in enumerate(self.get_queryset()[start:start+limit], start):
+            for index, _item in enumerate(self.get_queryset()[start:start+limit], start):                
                 list_data.append(_item)
                                     
            
@@ -51,7 +53,28 @@ class IIIViews(ListView):
             return HttpResponse(json.dumps(data, default=default), 'application/json')
         else:
             return render(request, self.html, {'header': 'Stock List'})
+    '''
+    def get(self):
+        if request.is_ajax():
+            start = int(request.GET.get('start'))
+            limit = int(request.GET.get('limit'))
+            filter = request.GET.get('filter')
+            order_by = request.GET.get('order_by')
+            query = self.model.objects.filter( Q(itemcode__icontains=self.request.GET.get('filter')) |
+            Q(name__icontains=self.request.GET.get('filter')),
+            ).values('id','itemcode','name','description','brand','category',
+            'unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
 
+            list_data = []
+            for index, _item in enumerate(query[start:start+limit], start):
+                list_data.append(_item)
+            data = {
+                'length': query.count(),
+                'objects': list_data,
+            }
+            return HttpResponse(json.dumps(data, default=default), 'application/json')
+        else:
+            return render(request, self.html, {'header': 'Stock List'})'''
 
 def delete_items(request, id):
     if request.is_ajax():

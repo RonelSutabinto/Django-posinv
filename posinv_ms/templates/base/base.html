@@ -121,8 +121,8 @@
     var name = '';
 
     $(document).ready(function () {
-
-        let table_item = $('#table_item').DataTable({
+        
+        let table_item = $('#table_item').DataTable({            
             "searching": true,
             "processing": true,
             "stateSave": true,
@@ -131,10 +131,12 @@
             "lengthChange": true,
             "autoWidth": false,
             "responsive": true,
+            
             "columnDefs": [{
-                "targets": [9],
+                "targets": [6,7,8],
                 "className": "text-right",
-            }],
+            }],           
+            
             "keys": true,
             "keys": { "blurable": false },
             "select": true,
@@ -166,10 +168,13 @@
                 { "data": "itemcode", "render": function (data, type, row) {
                         return '<td style="width: fit-content;"> <a href="seriallist/'+ row["id"] +'">' + data + '</a></td>'
                     }
-                },                            
-                { "data": "brand" },
+                },                              
                 { "data": "category" },
                 { "data": "unit" },
+                { "data": "pricingdate" , "render": function (data, type, row) {//data
+                        return  moment(data).format('M/D/YYYY hh:mm:ss'); //moment(row.updatedDate).format('M/D/YYYY hh:mm:ss'); 
+                    }, 
+                },
                 {
                     "data": "qty", "render": function (data, type, row) {
                         if (data == "None") {
@@ -188,6 +193,7 @@
                 },
                 
                 { "data": "saleprice" },
+                
                 { "data": "id", "render": function (data, type, row) {
                         if ('{{ request.user.is_superuser }}' == 'True') {
                                 return '<center><a href="#" class="btn btn-danger btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
