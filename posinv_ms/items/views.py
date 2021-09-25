@@ -31,7 +31,7 @@ class IIIViews(ListView):
     
     def get_queryset(self):        
         query = self.request.GET.get('filter')
-        return self.model.objects.filter((Q(name__icontains=query) | Q(itemcode__icontains=query) | Q(category__icontains=query)) & Q(active__icontains=1)).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
+        return self.model.objects.filter((Q(name__icontains=query) | Q(itemcode__icontains=query) | Q(category__icontains=query) | Q(brand__icontains=query) ) & Q(active__icontains=1)).values('id','itemcode','name','description','brand','category','unit','qty','price','saleprice','pricingdate').order_by( self.request.GET.get('order_by') )
             
          
     ''' source of class statement==============
@@ -65,7 +65,7 @@ class IIIViews(ListView):
             }
             return HttpResponse(json.dumps(data, default=default), 'application/json')
         else:
-            return render(request, self.html, {'header': 'Stock List'})
+            return render(request, self.html, {'header': 'Item Index'})
     '''
     def get(self):
         if request.is_ajax():

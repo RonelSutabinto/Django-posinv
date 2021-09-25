@@ -18,29 +18,61 @@
     </div>
     
     <section class="content">
-      <div class="row">
+      <div class="row">       
         <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <table id="table_item" class="table table-nowrap table-striped">
-                <thead>
-                  <tr>
-                    <th style="display: none;"></th>                 
-                    <th style="width: 140px;">Name</th>  
-                    <th style="width: 70px;">Item Code</th>               
-                    <th>Category</th>
-                    <th>Unit</th>
-                    <th data-type="date" data-format-string="Do MMMM YYYY">Price DateTime</th>
-                    <th>Qnty</th>
-                    <th>Price</th>
-                    <th>SPrice</th>
-                    <th ></th>                    
-                  </tr>
-                </thead>
-              </table>
+
+          <div class="card card-primary mt-2 text-xs-center">
+            <div class="card-header container-fluid" ">
+              <div class="row">                
+                <div class="col-md-0 float-right">                    
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool">
+                      <b class="btn btn-primary fa fa-plus-circle">  Add</b>
+                    </button>
+
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                        <b>Status</b>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right" role="menu">
+                        <a href="#" class="dropdown-Another action</a>
+                        <a href="#" class="dropdown-item">Somethingitem">Action</a>
+                        <a href="#" class="dropdown-item"> else here</a>
+                        <a class="dropdown-divider"></a>
+                        <a href="#" class="dropdown-item">Separated link</a>
+                      </div>
+                    </div>
+                  </div>   
+
+                </div>
+              </div>
             </div>
-          </div>
+            
+            <div class="card-body">              
+              <div class="row">
+                <div class="col-12">  
+                  <table id="table_item" class="table table-nowrap table-striped">
+                    <thead>
+                      <tr>
+                        <th style="display: none;"></th>                 
+                        <th style="width: 140px;">Name</th>  
+                        <th style="width: 70px;">Item Code</th>               
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th data-type="date" data-format-string="Do MMMM YYYY">Price DateTime</th>
+                        <th>Qnty</th>
+                        <th>Price</th>
+                        <th>SPrice</th>
+                        <th style="width: 15px;"></th>         
+                        <th style="width: 15px;"></th>             
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
         </div>
+      </div>
     </section>
 
   </div>
