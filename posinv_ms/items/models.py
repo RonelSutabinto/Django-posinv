@@ -17,7 +17,8 @@ class items(models.Model):
     price =models.FloatField(null=True, blank=True, default=0) #models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     saleprice =models.FloatField(null=True, blank=True, default=0) #models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     pricingbyID = models.CharField(max_length=45)       
-    pricingdate = models.DateTimeField(auto_now=True)         
+    pricingdate = models.DateTimeField(auto_now=True)
+    active = models.PositiveSmallIntegerField(default=1, null=True)           
     class Meta:
         db_table = "items"
 
