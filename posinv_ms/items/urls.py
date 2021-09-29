@@ -5,11 +5,8 @@ from .views import *
 urlpatterns = [
     #     path('', views.meterList, name='meterList'),
     path('', IIIViews.as_view(), name='iiiviews'),
-    path('delete/<int:id>/', views.delete_items, name='delete_items'),
+    path('delete/<int:id>/', views.delete_items, name='delete_items'),    
     
-    #path('seriallist/<int:idmeters>/edit/<int:id>/',
-    #     views.edit_meters, name='edit_meters'),
-
-    #path('seriallist/<int:iditems>/', views.seriallist, name='seriallist'),
+    path('add/<int:id>/', views.add_item, name='add'),
     #path('listofserials/<int:iditems>/',views.seriallist_data, name='listofserials'),
 ]

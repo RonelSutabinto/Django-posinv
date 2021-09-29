@@ -1,0 +1,141 @@
+{% extends "base/base.html" %}
+
+{% block header %}
+{% include 'base/header.html' %}
+{% endblock header %}
+
+{% block content %}
+
+
+<style>
+    div.padding {    
+        padding: 10px;   
+    }
+
+    div.padding_header {    
+        padding: 12px;   
+    }
+</style>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 row center">
+          <div class="col-sm-1.5 mr-2">
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <section class="content">
+      <div class="row">       
+        <div class="col">
+
+          <div class="card mt-2 text-xs-center">
+            <div class="card-header container-fluid padding_header" style ="background-color:rgb(65, 126, 240);" >
+              <div class="row">                
+                <div class="col-md-0 float-right">                    
+                  <div class="card-tools">
+                    
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-tool ">
+                      <a><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
+                      <a href="\items"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
+                    </button>
+
+                   
+                </div>
+                  </div>   
+
+                </div>
+              </div>
+            </div>
+                        
+            <div calss="card-body">
+                <div class="raw padding">
+                    <!--
+                    <input type="hidden" id="id_idmeterserials" name="idmeterserials"
+                        value="">
+                    <div class="form-group row">
+                        <label for="id_testdate" class="col-sm-3 col-form-label" styl><span>
+                                Date:</span></label>
+                        <div class="col">
+                            <div class="input-group inputs-group-sm">
+                                <input type="date" class="form-control form-control-sm"
+                                    id="id_testdate" name="testdate" data-mask datemask
+                                    value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="id_serialno" class="col-sm-3 col-form-label">Serial
+                            No.:</label>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-sm" id="id_serialno"
+                                name="serialno" value="" readonly>
+                        </div>
+                    </div>-->
+
+                    <div class="form-group row">
+                        <label for="id_reading" class="col-sm-3 col-form-label">Item Code:</label>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-sm d"
+                                style="text-align: left;" id="id_reading" name="reading"
+                                step="0.01" value="" step="any" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_type" class="col-sm-3 col-form-label">Name:</label>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-sm" id="id_type"
+                                name="type" value="" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_volts" class="col-sm-3 col-form-label">Description:</label>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-sm" id="id_volts"
+                                name="volts" value="" required>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--<div class="card-body">              
+              <div class="row">
+                <div class="col-12">  
+                  <table id="table_item" class="table table-nowrap table-striped">
+                    <thead>
+                      <tr>
+                        <th style="display: none;"></th>                 
+                        <th style="width: 140px;">Name</th>  
+                        <th style="width: 70px;">Item Code</th>               
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th data-type="date" data-format-string="Do MMMM YYYY">Price DateTime</th>
+                        <th>Qnty</th>
+                        <th>Price</th>
+                        <th>SPrice</th>
+                        <th style="width: 15px;"></th>         
+                        <th style="width: 15px;"></th>             
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>-->
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+</script>
+{% endblock content %}

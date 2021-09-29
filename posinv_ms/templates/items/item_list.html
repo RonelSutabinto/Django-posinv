@@ -5,6 +5,17 @@
 {% endblock header %}
 
 {% block content %}
+<style>
+  div.padding {
+    /*width: 300px;*/
+    padding: 5px;
+    /*background-color: lightblue;*/
+  }
+
+  div.padding_header {    
+    padding: 12px;   
+  }
+</style>
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
@@ -22,33 +33,33 @@
         <div class="col">
 
           <div class="card card-primary mt-2 text-xs-center">
-            <div class="card-header container-fluid" >
+            <div class="card-header container-fluid padding_header" >
               <div class="row">                
-                <div class="col-md-0 float-right">                    
+                <div class="col-md-0 float-right">  
+
                   <div class="card-tools">
-                    <button type="button" class="btn btn-tool">
-                      <b class="btn btn-primary fa fa-plus-circle">  Add</b>
+
+                    <button  type="button" class="btn btn-tool " >
+                      <a  href="{% url 'add' 1 %}"><b style="height: 30px;" class="btn btn-dark fa fa-plus-circle ">  Add</b></a>
                     </button>
 
                     <div class="btn-group ">
-                      <button type="button" class="btn btn-tool btn-dark dropdown-toggle" data-toggle="dropdown">
-                        <b>Status</b>
-                      </button>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-dark" role="menu">
-                        <a href="#" class="dropdown-Another"> action</a>
-                        <a href="#"  class="dropdown-item black-text">Somethingitem">Action</a>
-                        <a href="#" class="dropdown-item"> else here</a>
-                        <a class="dropdown-divider"></a>
-                        <a href="#" class="dropdown-item">Separated link</a>
+                      <button type="button" class="btn btn-tool btn-dark dropdown-toggle status_label" style="color:rgb(250, 249, 245);background-color: black; font-weight: bold;" data-toggle="dropdown">Status</button>
+                      <div class="dropdown-menu dropdown-menu-right dropdown-dark" role="menu"> 
+                        <a onclick="show_inactive(0)" value="0" class="dropdown-item" style="color:rgb(12, 81, 150);">&nbsp;&nbsp; Active</a>
+                        <a onclick="show_inactive(1)" value="1"  class="dropdown-item" style="color:rgb(12, 81, 150);">&nbsp;&nbsp; In-Active</a>
+                        <a onclick="show_inactive()" value="2"  class="dropdown-item" style="color:rgb(12, 81, 150);">&nbsp;&nbsp; All Item Index</a>
+                        <!--<a href="#"  class="dropdown-item black-text" style="color:rgb(12, 81, 150);">&nbsp;&nbsp; All</a>-->
                       </div>
                     </div>
+
                   </div>   
 
                 </div>
               </div>
             </div>
             
-            <div class="card-body">              
+            <div class="card-body padding">              
               <div class="row">
                 <div class="col-12">  
                   <table id="table_item" class="table table-nowrap table-striped">
@@ -104,6 +115,22 @@
       });
     }
   }
+
+  function show_inactive(e) {
+    $('#inactive').val(e);
+    /*$('#table2').DataTable().destroy();
+    if ($('#ischeck').val() == 0) {
+      fetchData('yes',e);
+    } else {
+      fetchData('no',e);
+    }*/
+    if (e == 0)
+      $('.status_label').html('Active');
+    else
+      if (e == 1) $('.status_label').html('In-Active');
+    else
+      $('.status_label').html('All Item Index');
+  };
 
 </script>
 {% endblock content %}
