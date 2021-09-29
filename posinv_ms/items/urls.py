@@ -7,6 +7,6 @@ urlpatterns = [
     path('', IIIViews.as_view(), name='iiiviews'),
     path('delete/<int:id>/', views.delete_items, name='delete_items'),    
     
-    path('add/<int:id>/', views.add_item, name='add'),
+    path('add', views.add_item, name='add'),
     #path('listofserials/<int:iditems>/',views.seriallist_data, name='listofserials'),
 ]

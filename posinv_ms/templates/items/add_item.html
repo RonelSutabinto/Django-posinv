@@ -9,12 +9,10 @@
 
 <style>
     div.padding {    
-        padding: 10px;   
+        padding: 8px;   
     }
 
-    div.padding_header {    
-        padding: 12px;   
-    }
+          
 </style>
 
 <div class="content-wrapper">
@@ -34,20 +32,22 @@
         <div class="col">
 
           <div class="card mt-2 text-xs-center">
-            <div class="card-header container-fluid padding_header" style ="background-color:rgb(65, 126, 240);" >
-              <div class="row">                
-                <div class="col-md-0 float-right">                    
-                  <div class="card-tools">
-                    
-                    <div class="btn-group">
-                    <button type="button" class="btn btn-tool ">
-                      <a><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
-                      <a href="\items"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
-                    </button>
+            <div class="card-header container-fluid " style ="background-color:rgb(65, 126, 240);  padding: 2px;" >
+              <div class="row">    
+                  
+                <div class="col-sm-1.5 ml-4 mt-1">
+                    <a style="font-size: 20px; color:white"> Add Item</a>
+                </div>            
 
-                   
-                </div>
-                  </div>   
+                <div class="col row d-flex justify-content-end padding mr-2">                                  
+                  <div class="card-tools">                    
+                    <div class="btn-group mb-1 ">
+                        <button type="button" class="btn btn-tool float-right ">
+                        <a><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
+                        <a href="\items"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
+                        </button>                   
+                    </div>
+                  </div>  
 
                 </div>
               </div>
@@ -80,27 +80,50 @@
                     </div>-->
 
                     <div class="form-group row">
-                        <label for="id_reading" class="col-sm-3 col-form-label">Item Code:</label>
+                        <label for="id_reading" class="col-sm-3 col-form-label">Item Code :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm d"
-                                style="text-align: left;" id="id_reading" name="reading"
+                                style="text-align: left;" id="itemcode_tf" name="reading"
                                 step="0.01" value="" step="any" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_type" class="col-sm-3 col-form-label">Name:</label>
+                        <label for="id_type" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col">
-                            <input type="text" class="form-control form-control-sm" id="id_type"
+                            <input type="text" class="form-control form-control-sm" id="name_tf"
                                 name="type" value="" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_volts" class="col-sm-3 col-form-label">Description:</label>
+                        <label for="id_volts" class="col-sm-3 col-form-label">Description :</label>
                         <div class="col">
-                            <input type="text" class="form-control form-control-sm" id="id_volts"
+                            <input type="text" class="form-control form-control-sm" id="descriptiom_tf"
                                 name="volts" value="" required>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="id_volts" class="col-sm-3 col-form-label">Brand :</label>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-sm" id="brand_tf"
+                                value="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="id" class="col-sm-3 col-form-label">Category :</label>
+                        <div class="col">
+                            <select class="form-control select2" id="id"
+                                name="id">
+                                {% for row in category %}
+                                <option value="{{ row.id }}">
+                                    {{ row.category }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>

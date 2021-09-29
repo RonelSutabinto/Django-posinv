@@ -99,8 +99,8 @@ def delete_items(request, id):
 
 
 # class MeterList(CreateView):
-def add_item(request, id):
-    return render(request, 'items/add_item.html', {'id': id, 'header':'Add Item'})
+def add_item(request):
+    return render(request, 'items/add_item.html', {'id': id, 'header':'Item Index / Add Item'})
 
 def seriallist_data(request, id):
     if request.is_ajax():

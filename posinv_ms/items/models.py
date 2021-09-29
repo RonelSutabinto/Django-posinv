@@ -55,5 +55,12 @@ class itemserials_details(models.Model):
     pricingdate =  models.DateTimeField(auto_now=True)         
     class Meta:
         db_table = "itemserials_details"
-        
+
+class itemserials_details(models.Model):
+    id = models.AutoField(primary_key=True)    
+    name = models.CharField(max_length=75)        
+    class Meta:
+        db_table = "category"
+
+  
 
