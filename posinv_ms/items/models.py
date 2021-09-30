@@ -56,9 +56,9 @@ class itemserials_details(models.Model):
     class Meta:
         db_table = "itemserials_details"
 
-class itemserials_details(models.Model):
+class category(models.Model):
     id = models.AutoField(primary_key=True)    
-    name = models.CharField(max_length=75)        
+    category = models.CharField(max_length=75)        
     class Meta:
         db_table = "category"
 

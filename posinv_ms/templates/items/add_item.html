@@ -28,6 +28,7 @@
     </div>
     
     <section class="content">
+      
       <div class="row">       
         <div class="col">
 
@@ -43,8 +44,8 @@
                   <div class="card-tools">                    
                     <div class="btn-group mb-1 ">
                         <button type="button" class="btn btn-tool float-right ">
-                        <a><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
-                        <a href="\items"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
+                        <a onclick='document.forms["myform"].submit(); return false;' href="#"><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
+                        <a onClick="javascript:history.go(-1)"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
                         </button>                   
                     </div>
                   </div>  
@@ -52,8 +53,17 @@
                 </div>
               </div>
             </div>
-                        
-            <div calss="card-body">
+
+            {% if save == "save" %}
+              <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> Success: Item index  saved!
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+              </div>        
+            {% endif %}
+
+            <!--<form id="myform" action method="POST" autocomplete="off"> class="post-form" action="{% url 'itemindex:additem' %}-->
+              <form id="myform" method="POST" class="post-form" action="{% url 'items:add_item' %}">
+              {% csrf_token %}            
+              <div calss="card-body">
                 <div class="raw padding">
                     <!--
                     <input type="hidden" id="id_idmeterserials" name="idmeterserials"
@@ -80,41 +90,41 @@
                     </div>-->
 
                     <div class="form-group row">
-                        <label for="id_reading" class="col-sm-3 col-form-label">Item Code :</label>
+                        <label for="id_itemcode" class="col-sm-2 col-form-label">Item Code :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm d"
-                                style="text-align: left;" id="itemcode_tf" name="reading"
+                                style="text-align: left;" id="itemcode_tf" name="itemcode_tf"
                                 step="0.01" value="" step="any" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_type" class="col-sm-3 col-form-label">Name :</label>
+                        <label for="name_tf" class="col-sm-2 col-form-label">Name :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="name_tf"
-                                name="type" value="" required>
+                                name="name_tf" value="" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_volts" class="col-sm-3 col-form-label">Description :</label>
+                        <label for="descriptiom_tf" class="col-sm-2 col-form-label">Description :</label>
                         <div class="col">
-                            <input type="text" class="form-control form-control-sm" id="descriptiom_tf"
-                                name="volts" value="" required>
+                            <input type="text" class="form-control form-control-sm" id="description_tf"
+                                name="descriptiom_tf" value="" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="id_volts" class="col-sm-3 col-form-label">Brand :</label>
+                        <label for="brand_tf" class="col-sm-2 col-form-label">Brand :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="brand_tf"
-                                value="" required>
+                                name="brand_tf" value="" required>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="id" class="col-sm-3 col-form-label">Category :</label>
-                        <div class="col">
-                            <select class="form-control select2" id="id"
-                                name="id">
+                    <div class="form-group row" >
+                        <label for="category_tf" class="col-sm-2 col-form-label">Category :</label>
+                        <div class="col-sm-9" >
+                            <select class="form-control select2" id="category_tf"
+                                name="category_tf">
                                 {% for row in category %}
                                 <option value="{{ row.id }}">
                                     {{ row.category }}
@@ -126,7 +136,8 @@
 
 
                 </div>
-            </div>
+              </div>
+            </form>
             <!--<div class="card-body">              
               <div class="row">
                 <div class="col-12">  
@@ -159,6 +170,43 @@
 
 
 <script type="text/javascript">
-
+  function required()
+  {
+    var itemcode = document.getElementById("itemcode_tf").value;
+    var name = document.getElementById("name_tf").value;
+    var description = document.getElementById("description_tf").value;
+    var brand = document.getElementById("brand_tf").value;
+    var category = document.getElementById("category_tf").value;
+    //var unit = document.getElementById("itemcode_tf").value;
+    if (itemcode === "")
+    {
+      alert("Itemcode must be filled out");
+      return false;
+    }
+    else if (name === "")
+    {
+      alert("Name must be filled out");
+      return false;
+    }
+    else if (description === "")
+    {
+      alert("Description must be filled out");
+      return false;
+    }
+    else if (brand === "")
+    {
+      alert("Brand must be filled out");
+      return false;
+    }
+    else if (category === "")
+    {
+      alert("Category must be filled out");
+      return false;
+    }
+    else 
+    {
+      "{% url 'save_item' %}"
+    }
+  }
 </script>
 {% endblock content %}
