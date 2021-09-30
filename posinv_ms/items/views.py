@@ -79,7 +79,7 @@ def delete_items(request, id):
 # class MeterList(CreateView):
 def add_item(request):
     category_set = category.objects.all()    
-    # form =categoryForm()
+    #form =categoryForm()
     # serials = meterserials.objects.filter(idmeters=id).filter(wms_status__exact=0)
     context = {#'form': form, 
                 'category': category_set,
@@ -88,20 +88,21 @@ def add_item(request):
     return render(request, 'items/add_item.html',context)
 
 def save_item(request):
+    category_set = category.objects.all()   
+    context = {'category': category_set,
+                'header':'Item Index / Add Item'}  
+
     if request.method == "POST":
         form = itemForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                form.save()
-                category_set = category.objects.all()   
-                context = {'category': category_set,
-                           'header':'Item Index / Add Item'}  
+                form.save()                
                 return render(request,'items/add_item.html',context)
             except:
                 pass
     else:
         form = itemForm()
-    return render(request,'items/add_item.html',{'form':form})
+    return render(request,'items/add_item.html',context)
     
     #return render(request, 'items/add_item.html',context)
 '''def additem(request):
