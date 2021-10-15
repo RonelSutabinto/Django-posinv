@@ -9,7 +9,7 @@ class itemForm(forms.ModelForm):
                
     def __init__(self, *args, **kwargs):
         super(itemForm, self).__init__(*args, **kwargs)
-        #self.fields['itemcode'].required = False
+        self.fields['itemcode'].required = False
 
 
 class categoryForm(forms.ModelForm):

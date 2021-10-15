@@ -75,7 +75,7 @@ def delete_items(request, id):
         json_response = {json.dumps('deleted')}
     return HttpResponse(json_response, content_type='application/json')
 
-
+'''
 # class MeterList(CreateView):
 def add_item(request):
     category_set = category.objects.all()    
@@ -85,19 +85,47 @@ def add_item(request):
                 'category': category_set,
                 'header':'Item Index / Add Item'}    
     
-    return render(request, 'items/add_item.html',context)
+    return render(request, 'items/add_item.html',context)'''
 
+def add_item(request):
+    #serials = meterserials.objects.get(id=id)
+    category_set = category.objects.all()
+    form = itemForm(request.POST)
+    html = 'items/add_item.html'
+    context = {'form': form,'category': category_set, 'datetoday': datetoday}
+    return render(request, html, context)
+
+
+def save_item(request):
+    if request.method == "POST":
+        form = itemForm(request.POST)
+        if form.is_valid():
+            form.save()
+            '''idmeterserials = request.POST['idmeterserials']
+            average = request.POST['gen_average']
+            cursor = connection.cursor()
+            cursor.execute(
+                'update zanecometerpy.meter_serials set wms_status=1, status = if("' + str(average) + '" >= 98,1,2), accuracy="' + str(average) + '" where id = "' + str(idmeterserials) + '"')
+            cursor.fetchall()'''
+        return redirect("../../")
+    else:
+        form = itemForm(request.POST)
+        html = 'items/add_item.html'
+        context = {'form': form, 'datetoday': datetoday}
+        return render(request, html, context)
+
+'''
 def save_item(request):
     category_set = category.objects.all()   
     context = {'category': category_set,
-                'header':'Item Index / Add Item'}  
+                'header':'Item Index'}  
 
     if request.method == "POST":
         form = itemForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 form.save()                
-                return render(request,'items/add_item.html',context)
+                return render(request,'items/item_list.html',context)
             except:
                 pass
     else:
@@ -105,7 +133,7 @@ def save_item(request):
     return render(request,'items/add_item.html',context)
     
     #return render(request, 'items/add_item.html',context)
-'''def additem(request):
+def additem(request):
     if request.method == "POST":
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
