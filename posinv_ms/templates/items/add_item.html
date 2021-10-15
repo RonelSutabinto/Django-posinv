@@ -31,8 +31,12 @@
       
       <div class="row">       
         <div class="col">
-
+          <form role="form" id="myformEvnt" action method="POST" autocomplete="off">
+          {% csrf_token %}  
+          
           <div class="card mt-2 text-xs-center">
+
+                
             <div class="card-header container-fluid " style ="background-color:rgb(65, 126, 240);  padding: 2px;" >
               <div class="row">    
                   
@@ -43,10 +47,13 @@
                 <div class="col row d-flex justify-content-end padding mr-2">                                  
                   <div class="card-tools">                    
                     <div class="btn-group mb-1 ">
-                        <button type="button" class="btn btn-tool float-right ">
-                        <a onclick='document.forms["myformEvnt"].submit(); return false;' href="#"><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>
-                        <a onClick="javascript:history.go(-1)"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
-                        </button>                   
+                      <button type="submit" class="btn btn-dark btn-sm mr-1"><i class="fal fa-save mr-1" tabindex="-1"></i>Save &
+                        Close</button>
+                      <button type="button" class="btn btn-tool float-right ">
+                      <!--<a onclick='document.forms["myformEvnt"].submit(); return false;' href="#"><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>-->
+                      <a href="{% url 'iiiviews' %}"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
+                      <!--<a onClick="javascript:history.go(-1)"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>-->
+                      </button>              
                     </div>
                   </div>  
 
@@ -54,14 +61,13 @@
               </div>
             </div>
 
-            {% if save == "save" %}
-              <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> Success: Item index  saved!
-                  <button type="button" class="close" data-dismiss="alert">×</button>
+            {% if msg == "Save" %}
+              <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> Item index successfully saved!
+                  <button type="button" class="close" data-dismiss="alert">x</button>
               </div>        
             {% endif %}
                         
-            <form id="myformEvnt" action method="POST" autocomplete="off">
-              {% csrf_token %}            
+                  
               <div calss="card-body">
                 <div class="raw padding">
                     <!-- fields = ['id','itemcode','name','description','brand','category','unit','qty','price','saleprice',]-->
@@ -69,22 +75,21 @@
                         <label for="itemcode_tf" class="col-sm-2 col-form-label">Item Code :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm d"
-                                style="text-align: left;" id="itemcode_tf" name="itemcode" required
-                                value="{{ form.itemcode }}" >
+                                style="text-align: left;" id="itemcode_tf" name="itemcode" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="name_tf" class="col-sm-2 col-form-label">Name :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="name_tf"
-                            name="name" required value="{{ form.name }}" >
+                            name="name" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="descriptiom_tf" class="col-sm-2 col-form-label">Description :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="description_tf"
-                            name="description" required value="{{ form.description }}" >
+                            name="description" required>
                         </div>
                     </div>
 
@@ -92,7 +97,7 @@
                         <label for="brand_tf" class="col-sm-2 col-form-label">Brand :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="brand_tf"
-                            name="brand" required value="{{ form.brand }}" >
+                            name="brand" required>
                         </div>
                     </div>
 
@@ -113,7 +118,7 @@
 
                 </div>
               </div>
-            </form>
+            
             <!--<div class="card-body">              
               <div class="row">
                 <div class="col-12">  
@@ -138,6 +143,8 @@
               </div>
             </div>-->
         </div>
+
+        </form>
       </div>
     </section>
 
@@ -146,6 +153,54 @@
 
 
 <script type="text/javascript">
+$(document).ready(function () {
+  $('#myformEvnt').validate({
+      rules: {
+        itemcode: {
+          required: true,
+          //email: true,
+        },
+        name: {
+          required: true,
+          //minlength: 5
+        },
+        description: {
+          required: true
+        },
+        brand: {
+          required: true
+        },
+      },
+      messages: {
+        itemcode: {
+          required: "Please enter item code",
+          //email: "Please enter a vaild email address"
+        },
+        name: {
+          required: "Please enter a name",
+          //minlength: "Your password must be at least 5 characters long"
+        },
+        description: {
+          required: "Please provide item description",          
+        },
+        brand: {
+          required: "Please enter a brand",          
+        },
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+  });
+
   function required()
   {
     var itemcode = document.getElementById("itemcode_tf").value;
@@ -179,10 +234,7 @@
       alert("Category must be filled out");
       return false;
     }
-    else 
-    {
-      "{% url 'save_item' %}"
-    }
+    
   }
 </script>
 {% endblock content %}

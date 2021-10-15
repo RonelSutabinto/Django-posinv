@@ -75,98 +75,22 @@ def delete_items(request, id):
         json_response = {json.dumps('deleted')}
     return HttpResponse(json_response, content_type='application/json')
 
-'''
-# class MeterList(CreateView):
-def add_item(request):
-    category_set = category.objects.all()    
-    #form =categoryForm()
-    # serials = meterserials.objects.filter(idmeters=id).filter(wms_status__exact=0)
-    context = {#'form': form, 
-                'category': category_set,
-                'header':'Item Index / Add Item'}    
-    
-    return render(request, 'items/add_item.html',context)'''
-
-def add_item(request):
-    #serials = meterserials.objects.get(id=id)
+def add_item(request):   
     category_set = category.objects.all()
-    form = itemForm(request.POST)
     html = 'items/add_item.html'
-    context = {'form': form,'category': category_set, 'datetoday': datetoday}
-    return render(request, html, context)
+    form = itemForm(request.POST)
 
-
-def save_item(request):
-    if request.method == "POST":
-        form = itemForm(request.POST)
+    if request.method == "POST":        
         if form.is_valid():
-            form.save()
-            '''idmeterserials = request.POST['idmeterserials']
-            average = request.POST['gen_average']
-            cursor = connection.cursor()
-            cursor.execute(
-                'update zanecometerpy.meter_serials set wms_status=1, status = if("' + str(average) + '" >= 98,1,2), accuracy="' + str(average) + '" where id = "' + str(idmeterserials) + '"')
-            cursor.fetchall()'''
-        return redirect("../../")
+            form.save()            
+            return render(request, 'items/item_list.html',{'msg':"Save"})
+        else:
+            context = {'form': form,'category': category_set,'msg':"Error"}
+            return render(request, html, context)
     else:
-        form = itemForm(request.POST)
-        html = 'items/add_item.html'
-        context = {'form': form, 'datetoday': datetoday}
+        context = {'form': form,'category': category_set}
         return render(request, html, context)
 
-'''
-def save_item(request):
-    category_set = category.objects.all()   
-    context = {'category': category_set,
-                'header':'Item Index'}  
-
-    if request.method == "POST":
-        form = itemForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                form.save()                
-                return render(request,'items/item_list.html',context)
-            except:
-                pass
-    else:
-        form = itemForm()
-    return render(request,'items/add_item.html',context)
-    
-    #return render(request, 'items/add_item.html',context)
-def additem(request):
-    if request.method == "POST":
-        form = ItemForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                form.save()
-                items = Item.objects.all()     
-                return render(request,'datatables/itemlist_dt.html',{'items': items,
-                                                                     'msgEvent': "success add",
-                                                                     'msg_record': "Item record successfully added."
-                })          
-                
-            except:
-                pass
-    else:
-        form = ItemForm()
-    return render(request,'additemindex.html',{'form':form})
-def save_item(request):
-    if request.is_ajax():
-        itemcode = request.GET.get('itemcode_tf')
-        name = request.GET.get('name_tf')
-        description = request.GET.get('description_tf')
-        brand = request.GET.get('brand_tf')
-        category = request.GET.get('category_tf')
-
-        cursor = connection.cursor()        
-        cursor.execute('insert into invpos_ms.items(itemcode,name,description,brand,category,unit) values("'+itemcode+'","'+name+'","'+description+'","'+brand+'","'+category+'","pcs") ')
-        cursor.fetchall()
-
-        category_set = category.objects.all()   
-        context = {'category': category_set,
-                   'header':'Item Index / Add Item'}    
-    
-    return render(request, 'items/add_item.html',context)'''
 
 def datetime_handler(x):
     if isinstance(x, datetime.datetime):

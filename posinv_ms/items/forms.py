@@ -5,11 +5,12 @@ from .models import items, itemserials, itemserials_details,category
 class itemForm(forms.ModelForm):
     class Meta:
         model = items
-        fields = ['id','itemcode','name','description','brand','category','unit','qty','price','saleprice',]
+        #fields = ['id','itemcode','name','description','brand','category','unit','qty','price','saleprice',]
+        fields = ['itemcode','name','description','brand','category']
                
-    def __init__(self, *args, **kwargs):
-        super(itemForm, self).__init__(*args, **kwargs)
-        self.fields['itemcode'].required = False
+    #def __init__(self, *args, **kwargs):
+    #    super(itemForm, self).__init__(*args, **kwargs)
+    #    self.fields['itemcode'].required = False
 
 
 class categoryForm(forms.ModelForm):
