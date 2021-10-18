@@ -88,7 +88,7 @@ def add_item(request):
             context = {'form': form,'category': category_set,'msg':"Error"}
             return render(request, html, context)
     else:
-        context = {'form': form,'category': category_set}
+        context = {'form': form,'category': category_set,'header': 'Add Item'}
         return render(request, html, context)
 
 

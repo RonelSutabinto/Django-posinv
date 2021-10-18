@@ -8,11 +8,33 @@
 
 
 <style>
-    div.padding {    
-        padding: 8px;   
-    }
+  div.padding {    
+      padding: 8px;   
+  }
+ 
+  input[type=button], input[type=submit], input[type=reset] {
+    background-color: #242525;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin: 0px 4px;
+    cursor: pointer;
+  }
 
-          
+  .icon-input-btn{
+        display: inline-block;
+        position: relative;
+  }
+  .icon-input-btn input[type="submit"]{
+      padding-left: 2em;
+  }
+  .icon-input-btn .fa{
+      display: inline-block;
+      position: absolute;
+      left: 0.65em;
+      top: 30%;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -46,14 +68,17 @@
 
                 <div class="col row d-flex justify-content-end padding mr-2">                                  
                   <div class="card-tools">                    
-                    <div class="btn-group mb-1 ">
-                      <button type="submit" class="btn btn-dark btn-sm mr-1"><i class="fal fa-save mr-1" tabindex="-1"></i>Save &
-                        Close</button>
+                    <div class="btn-group mb-1 ">                                           
+                      
                       <button type="button" class="btn btn-tool float-right ">
-                      <!--<a onclick='document.forms["myformEvnt"].submit(); return false;' href="#"><b class="btn fa fa-check " style="background-color:rgb(224, 226, 225);"> Save</b></a>-->
-                      <a href="{% url 'iiiviews' %}"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>
-                      <!--<a onClick="javascript:history.go(-1)"><b class="btn btn-danger fa fa-arrow-alt-circle-left"> Back</b> </a>-->
-                      </button>              
+                        <span class="icon-input-btn">
+                          <i class="fa fa-check"></i> 
+                          <input type="submit" class="btn btn-primary" value="Save & Close">
+                        </span>                        
+                       
+                        <a href="{% url 'iiiviews' %}"><b style="height: 30px;background-color:rgb(223, 41, 41); color: white;" class="btn btn-dark fa fa-arrow-alt-circle-left ">  Back</b></a>
+                      </button>   
+                            
                     </div>
                   </div>  
 
