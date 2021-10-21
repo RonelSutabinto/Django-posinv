@@ -4,9 +4,9 @@ from django.db.models.expressions import Window
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
-from .models import items, itemserials, itemserials_details, category
+from .models import items, itemserials, itemserials_details, category,unit
 from django.db.models.query_utils import Q
-from .forms import categoryForm, itemForm #, itemserialsForm, serialsdetailsForm
+from .forms import categoryForm, itemForm,serialsItemForm #, itemserialsForm, 
 
 from django.views.generic import CreateView, FormView, RedirectView, ListView
 from django.utils.dateparse import parse_datetime
@@ -77,6 +77,7 @@ def delete_items(request, id):
 
 def add_item(request):   
     category_set = category.objects.all()
+    unit_set = unit.objects.all()
     html = 'items/add_item.html'
     form = itemForm(request.POST)
 
@@ -85,12 +86,35 @@ def add_item(request):
             form.save()            
             return render(request, 'items/item_list.html',{'msg':"Save"})
         else:
-            context = {'form': form,'category': category_set,'msg':"Error"}
+            context = {'form': form,'unit':unit_set,'category': category_set,'msg':"Error"}
             return render(request, html, context)
     else:
-        context = {'form': form,'category': category_set,'header': 'Add Item'}
+        context = {'form': form,'unit':unit_set,'category': category_set,'header': 'Add Item'}
         return render(request, html, context)
 
+def edit_item(request, id):
+    category_set = category.objects.all()
+    if request.method == "POST":
+        queryset = items(pk=id)
+        form = serialsItemForm(request.POST, instance=queryset)
+        if form.is_valid():
+            created = request.POST.get('created_at')
+            print(parse_datetime(created))
+            rec = form.save(commit=False)
+            rec.created_at = datetoday
+            rec.save()
+
+            cursor = connection.cursor()
+            idmeterserials = request.POST['idmeterserials']
+            average = request.POST['gen_average']
+            cursor.execute(
+                'update zanecometerpy.meter_serials set wms_status=1, status = if("' + str(average) + '" >= 98,1,2), accuracy="' + str(average) + '" where id = "' + str(idmeterserials) + '"')
+            cursor.fetchall()
+        return redirect("../../")
+    else:
+        queryset = items.objects.get(pk=id)     
+        context = {'form': queryset, 'datetoday': datetoday,'category': category_set}
+        return render(request, 'items/edit_item.html', context)
 
 def datetime_handler(x):
     if isinstance(x, datetime.datetime):

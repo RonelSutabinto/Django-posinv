@@ -63,7 +63,7 @@
               <div class="row">    
                   
                 <div class="col-sm-1.5 ml-4 mt-1">
-                    <a style="font-size: 20px; color:white"> Add Item</a>
+                    <a style="font-size: 20px; color:white"> Update Item</a>
                 </div>            
 
                 <div class="col row d-flex justify-content-end padding mr-2">                                  
@@ -84,14 +84,7 @@
 
                 </div>
               </div>
-            </div>
-
-            {% if msg == "Save" %}
-              <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> Item index successfully saved!
-                  <button type="button" class="close" data-dismiss="alert">x</button>
-              </div>        
-            {% endif %}
-                        
+            </div>                               
                   
               <div calss="card-body">
                 <div class="raw padding">
@@ -100,21 +93,21 @@
                         <label for="itemcode_tf" class="col-sm-2 col-form-label">Item Code :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm d"
-                                style="text-align: left;" id="itemcode_tf" name="itemcode" required>
+                                style="text-align: left;" id="itemcode_tf" name="itemcode" value="{{ form.itemcode }}" readonly>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="name_tf" class="col-sm-2 col-form-label">Name :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="name_tf"
-                            name="name" required>
+                            name="name" value="{{ form.name }}" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="descriptiom_tf" class="col-sm-2 col-form-label">Description :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="description_tf"
-                            name="description" required>
+                            name="description" value="{{ form.description }}" required>
                         </div>
                     </div>
 
@@ -122,7 +115,7 @@
                         <label for="brand_tf" class="col-sm-2 col-form-label">Brand :</label>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="brand_tf"
-                            name="brand" required>
+                            name="brand" value="{{ form.brand }}" required>
                         </div>
                     </div>
 
@@ -130,7 +123,7 @@
                         <label for="category_tf" class="col-sm-2 col-form-label">Category :</label>
                         <div class="col-sm-9" >
                             <select class="form-control select2" id="category_tf"
-                                name="category">
+                                name="category" value="{{ form.category }}">
                                 {% for row in category %}
                                 <option value="{{ row.category }}">
                                     {{ row.category }}
@@ -140,45 +133,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group row" >
-                      <label for="unit_tf" class="col-sm-2 col-form-label">Unit :</label>
-                      <div class="col-sm-9" >
-                          <select class="form-control select2" id="unit_tf"
-                              name="unit">
-                              {% for row in unit %}
-                              <option value="{{ row.unit }}">
-                                  {{ row.unit }}
-                              </option>
-                              {% endfor %}
-                          </select>
-                      </div>
-                  </div>
+
                 </div>
-              </div>
+              </div>           
             
-            <!--<div class="card-body">              
-              <div class="row">
-                <div class="col-12">  
-                  <table id="table_item" class="table table-nowrap table-striped">
-                    <thead>
-                      <tr>
-                        <th style="display: none;"></th>                 
-                        <th style="width: 140px;">Name</th>  
-                        <th style="width: 70px;">Item Code</th>               
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th data-type="date" data-format-string="Do MMMM YYYY">Price DateTime</th>
-                        <th>Qnty</th>
-                        <th>Price</th>
-                        <th>SPrice</th>
-                        <th style="width: 15px;"></th>         
-                        <th style="width: 15px;"></th>             
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-              </div>
-            </div>-->
         </div>
 
         </form>

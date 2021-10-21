@@ -9,5 +9,5 @@ urlpatterns = [
     
     path('add', views.add_item, name='add'),
     #path('save_item',views.save_item, name='save_item'),
-    #path('listofserials/<int:iditems>/',views.seriallist_data, name='listofserials'),
+    path('updateitem/<int:id>/',views.edit_item, name='edit_item'),
 ]

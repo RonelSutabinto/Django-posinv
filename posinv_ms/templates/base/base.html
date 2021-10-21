@@ -179,6 +179,7 @@
                         return  moment(data).format('M/D/YYYY hh:mm:ss'); //moment(row.updatedDate).format('M/D/YYYY hh:mm:ss'); 
                     }, 
                 },
+                { "data": "unit" }, 
                 {
                     "data": "qty", "render": function (data, type, row) {
                         if (data == "None") {
@@ -208,7 +209,7 @@
                 },
                 { "data": "id", "render": function (data, type, row) {
                         if ('{{ request.user.is_superuser }}' == 'True') {
-                                return '<center><a href="#" class="btn btn-danger btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
+                                return '<center><a href="#"  class="btn btn-danger btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
                             } else {
                                 return '<center><a href="#" class="btn btn-default btn-xs text-sm" title="Delete"><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
                             }

@@ -18,7 +18,9 @@ class items(models.Model):
     saleprice =models.FloatField(null=True, blank=True, default=0) #models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     pricingbyID = models.CharField(max_length=45)       
     pricingdate = models.DateTimeField(auto_now=True)
-    active = models.PositiveSmallIntegerField(default=1, null=True)           
+    active = models.PositiveSmallIntegerField(default=1, null=True)   
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)        
     class Meta:
         db_table = "items"
 
@@ -42,11 +44,11 @@ class itemserials(models.Model):
 
 class itemserials_details(models.Model):
     id = models.AutoField(primary_key=True)
-    itemcode = models.CharField(max_length=45)
-    name = models.CharField(max_length=45)
-    description = models.CharField(max_length=85)
-    brand = models.CharField(max_length=45)
-    category = models.CharField(max_length=45)
+    itemcode = models.CharField(max_length=45,null=True)
+    name = models.CharField(max_length=45,null=False)
+    description = models.CharField(max_length=85,null=True)
+    brand = models.CharField(max_length=45,null=True)
+    category = models.CharField(max_length=45,null=True)
     unit = models.CharField(max_length=45)          
     qty = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])             
     price = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
@@ -61,6 +63,12 @@ class category(models.Model):
     category = models.CharField(max_length=75)        
     class Meta:
         db_table = "category"
+
+class unit(models.Model):
+    idunit = models.AutoField(primary_key=True)    
+    unit = models.CharField(max_length=75)        
+    class Meta:
+        db_table = "unit"
 
   
 
