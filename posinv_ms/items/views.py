@@ -94,6 +94,7 @@ def add_item(request):
 
 def edit_item(request, id):
     category_set = category.objects.all()
+    unit_set = unit.objects.all()
     if request.method == "POST":
         queryset = items(pk=id)
         form = serialsItemForm(request.POST, instance=queryset)
@@ -113,7 +114,7 @@ def edit_item(request, id):
         return redirect("../../")
     else:
         queryset = items.objects.get(pk=id)     
-        context = {'form': queryset, 'datetoday': datetoday,'category': category_set}
+        context = {'form': queryset, 'unit':unit_set,'datetoday': datetoday,'category': category_set,'header': 'Update Item'}
         return render(request, 'items/edit_item.html', context)
 
 def datetime_handler(x):

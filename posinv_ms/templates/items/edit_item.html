@@ -133,6 +133,19 @@
                         </div>
                     </div>
 
+                    <div class="form-group row" >
+                      <label for="unit_tf" class="col-sm-2 col-form-label">Unit :</label>
+                      <div class="col-sm-9" >
+                          <select class="form-control select2" id="unit_tf"
+                              name="unit">
+                              {% for row in unit %}
+                              <option value="{{ row.unit }}">
+                                  {{ row.unit }}
+                              </option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                    </div>
 
                 </div>
               </div>           

@@ -199,13 +199,9 @@
                 
                 { "data": "saleprice" },
                 
-                { "data": "id", "render": function (data, type, row) {
-                        if ('{{ request.user.is_superuser }}' == 'True') {
-                                return '<center><a href="#" class="btn btn-secondary btn-xs text-sm" title="Delete" onclick = "delete_meters(' + row["id"] + ')" ><i class="fas fa-edit  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
-                            } else {
-                                return '<center><a href="#" class="btn btn-default btn-xs text-sm" title="Delete"><i class="fal fa-trash-alt  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
-                            }
-                        }
+                { "data": "id", "render": function (data, type, row) {                        
+                        return '<center> <a class="btn btn-dark btn-xs text-sm" href="updateitem/'+ row["id"] +'"><i class="fas fa-edit  px-1"></i><span style="font-size: 9px;"> </span></a></center>'
+                    },
                 },
                 { "data": "id", "render": function (data, type, row) {
                         if ('{{ request.user.is_superuser }}' == 'True') {
